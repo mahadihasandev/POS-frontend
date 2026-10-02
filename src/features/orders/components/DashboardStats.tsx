@@ -9,11 +9,11 @@ export function DashboardStats() {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 animate-pulse">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 animate-pulse">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="h-28 rounded-xl bg-slate-900/60 border border-slate-800"
+            className="h-28 rounded-2xl bg-white border border-slate-200"
           />
         ))}
       </div>
@@ -22,13 +22,13 @@ export function DashboardStats() {
 
   if (isError) {
     return (
-      <div className="p-4 rounded-xl border border-rose-500/20 bg-rose-500/10 text-rose-400 text-sm flex items-center justify-between">
-        <span>Failed to load live metrics from backend.</span>
+      <div className="p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-700 text-xs flex items-center justify-between">
+        <span>Offline or connecting to backend live sales feed...</span>
         <button
           onClick={() => refetch()}
-          className="text-xs underline hover:text-white"
+          className="text-xs font-bold underline hover:text-rose-900"
         >
-          Retry
+          Retry Feed
         </button>
       </div>
     );
@@ -37,7 +37,7 @@ export function DashboardStats() {
   const metrics = data?.data;
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <MetricCard
         title="Gross Sales (Today)"
         value={`৳${(metrics?.gross_revenue ?? 0).toLocaleString("en-US", {

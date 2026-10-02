@@ -20,15 +20,15 @@ export function MetricCard({
   icon,
 }: MetricCardProps) {
   return (
-    <Card className="hover:border-slate-700 transition duration-200">
-      <CardContent className="p-6">
+    <Card className="hover:border-indigo-300 transition duration-200">
+      <CardContent className="p-5">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-medium text-slate-400">{title}</p>
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{title}</p>
           {icon && <div className="text-slate-400">{icon}</div>}
         </div>
 
         <div className="mt-2 flex items-baseline justify-between">
-          <h4 className="text-2xl font-bold tracking-tight text-white">{value}</h4>
+          <h4 className="text-2xl font-bold tracking-tight text-slate-900">{value}</h4>
           {badgeText && (
             <Badge variant={badgeVariant} className="text-[10px]">
               {badgeText}
@@ -36,7 +36,7 @@ export function MetricCard({
           )}
         </div>
 
-        {subtitle && <p className="mt-1 text-xs text-slate-500">{subtitle}</p>}
+        {subtitle && <p className="mt-1.5 text-xs text-slate-500">{subtitle}</p>}
       </CardContent>
     </Card>
   );

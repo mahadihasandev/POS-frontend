@@ -9,7 +9,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "POS SuperShop | High-Performance Retail Client",
+  title: "POS SuperShop | Supermarket Cashier Terminal",
   description: "Next.js 15 client powered by RTK Query and Laravel 13 Octane backend",
 };
 
@@ -19,9 +19,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark h-full">
+    <html lang="en" className="h-full bg-slate-50">
       <body
-        className={`${plusJakartaSans.variable} font-sans antialiased bg-slate-950 text-slate-100 min-h-screen`}
+        className={`${plusJakartaSans.variable} font-sans antialiased bg-slate-50 text-slate-800 min-h-screen selection:bg-indigo-100 selection:text-indigo-800`}
       >
         <StoreProvider>{children}</StoreProvider>
       </body>
