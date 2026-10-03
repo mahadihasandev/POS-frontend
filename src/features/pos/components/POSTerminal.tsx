@@ -192,20 +192,20 @@ export function POSTerminal() {
         )}
       </div>
 
-      {/* Main POS Counter Viewport: 2-Column Split */}
-      <main className="flex-1 p-4 sm:px-6 pb-6 grid grid-cols-1 lg:grid-cols-12 gap-5 min-h-0">
-        {/* Left: Product Catalog (Categories + Images + Search) */}
+      {/* Main POS Counter Viewport: 60% Catalog / 40% Current Order Split */}
+      <main className="flex-1 p-4 sm:px-6 pb-6 grid grid-cols-1 lg:grid-cols-pos gap-5 min-h-0">
+        {/* Left: Product Catalog (Categories + Images + Search) - 60% */}
         <section
           aria-label="Product Catalog"
-          className="lg:col-span-7 xl:col-span-8 flex flex-col min-h-[500px]"
+          className="flex flex-col min-h-[500px] min-w-0"
         >
           <ProductCatalog onAddToCart={handleAddToCart} />
         </section>
 
-        {/* Right: Active Basket / Split Payment / Tender / Cash Slip */}
+        {/* Right: Active Basket / Current Order / Split Payment / Tender / Cash Slip - 40% */}
         <section
           aria-label="Active Checkout Basket"
-          className="lg:col-span-5 xl:col-span-4 flex flex-col"
+          className="flex flex-col min-w-0"
         >
           <CartSection />
         </section>

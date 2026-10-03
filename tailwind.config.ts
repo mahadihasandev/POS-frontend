@@ -27,6 +27,9 @@ const config: Config = {
           foreground: "hsl(var(--muted-foreground, 215 20.2% 65.1%))",
         },
       },
+      gridTemplateColumns: {
+        pos: "minmax(0, 60fr) minmax(0, 40fr)",
+      },
     },
   },
   plugins: [],
