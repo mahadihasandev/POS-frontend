@@ -23,11 +23,13 @@ import {
   ReceiptText,
   Keyboard,
   Radio,
+  MessageSquare,
 } from "lucide-react";
 
 export function POSTerminal() {
   const dispatch = useAppDispatch();
   const { items, parkedCarts } = useAppSelector((state) => state.cart);
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isShiftReportOpen, setIsShiftReportOpen] = useState(false);
@@ -154,6 +156,18 @@ export function POSTerminal() {
             <ReceiptText className="w-3.5 h-3.5 text-indigo-600" />
             <span>Shift X/Z-Report</span>
           </button>
+
+          {/* WhatsApp CRM Support Desk */}
+          <a
+            href="https://wa.me/8801735696417"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-semibold text-[11px] border border-emerald-200 transition"
+            title="Chat with Store CRM Desk on WhatsApp (+8801735696417)"
+          >
+            <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+            <span>WhatsApp CRM (+8801735696417)</span>
+          </a>
         </div>
 
         {/* Keyboard Function Keys Bar */}
@@ -211,9 +225,10 @@ export function POSTerminal() {
         </section>
       </main>
 
-      {/* Modals */}
+      {/* Modals & Terminal Lock Screen */}
       <CashierLoginModal
-        isOpen={isLoginModalOpen}
+        isOpen={isLoginModalOpen || !isAuthenticated || !user}
+        isLockScreen={!isAuthenticated || !user}
         onClose={() => setIsLoginModalOpen(false)}
       />
 

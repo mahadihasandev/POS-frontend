@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import type { CartItem, CustomerInfo } from "@/features/cart/types";
-import { Printer, CheckCircle2, X } from "lucide-react";
+import { Printer, CheckCircle2, MessageSquare, X } from "lucide-react";
 
 export interface CashSlipData {
   orderNumber: string;
@@ -33,6 +33,41 @@ export function CashSlipModal({ isOpen, onClose, data }: CashSlipModalProps) {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleSendWhatsApp = () => {
+    const rawPhone = data.customer?.phone?.replace(/[^0-9]/g, "") || "8801735696417";
+    const targetPhone = rawPhone.startsWith("01") ? `88${rawPhone}` : rawPhone;
+
+    const itemsSummary = data.items
+      .map(
+        (i) =>
+          `• ${i.name} (x${i.quantity}) - ৳${(i.quantity * i.unitPrice).toFixed(2)}`
+      )
+      .join("\n");
+
+    const message =
+      `🛒 *POS SuperShop Digital Cash Slip*\n` +
+      `Slip: *${data.orderNumber}*\n` +
+      `Date: ${data.date}\n` +
+      `Customer: *${data.customer.name}*\n` +
+      `-------------------------\n` +
+      `${itemsSummary}\n` +
+      `-------------------------\n` +
+      `Subtotal: ৳${data.subtotal.toFixed(2)}\n` +
+      (data.discountAmount > 0
+        ? `Discount: -৳${data.discountAmount.toFixed(2)}\n`
+        : "") +
+      `*Net Payable: ৳${data.totalAmount.toFixed(2)}*\n` +
+      `Paid (${data.paymentMethod}): ৳${(data.cashTendered || data.totalAmount).toFixed(2)}\n` +
+      (data.changeDue > 0 ? `Change: ৳${data.changeDue.toFixed(2)}\n` : "") +
+      `\nStore WhatsApp CRM: +8801735696417\n` +
+      `Thank you for shopping with us!`;
+
+    window.open(
+      `https://wa.me/${targetPhone}?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
   };
 
   return (
@@ -69,8 +104,8 @@ export function CashSlipModal({ isOpen, onClose, data }: CashSlipModalProps) {
             <p className="text-[10px] text-slate-500 font-sans">
               House #12, Road #4, Dhanmondi, Dhaka-1205
             </p>
-            <p className="text-[10px] text-slate-500 font-sans">
-              Tel: +880 1700-000000 • Mushak-6.3
+            <p className="text-[10px] text-slate-700 font-sans font-bold">
+              Tel / WhatsApp CRM: +8801735696417 • Mushak-6.3
             </p>
             <p className="text-[10px] text-slate-600 font-bold mt-1">
               BIN / VAT REG: 002394829-0101
@@ -219,6 +254,16 @@ export function CashSlipModal({ isOpen, onClose, data }: CashSlipModalProps) {
           >
             <Printer className="w-4 h-4" />
             <span>Print Cash Slip</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleSendWhatsApp}
+            className="py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-md shadow-emerald-500/20 transition flex items-center justify-center gap-1.5"
+            title="Send digital receipt directly to customer via WhatsApp"
+          >
+            <MessageSquare className="w-4 h-4" />
+            <span>WhatsApp</span>
           </button>
 
           <button

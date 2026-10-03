@@ -5,6 +5,7 @@ export interface CashierUser {
   role: "super_admin" | "branch_manager" | "floor_supervisor" | "cashier";
   pin_code: string;
   tenant_id: number;
+  can_sell?: boolean;
 }
 
 export interface ShiftInfo {

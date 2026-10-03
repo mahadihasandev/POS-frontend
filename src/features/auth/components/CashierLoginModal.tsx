@@ -15,9 +15,10 @@ import {
 interface CashierLoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  isLockScreen?: boolean;
 }
 
-export function CashierLoginModal({ isOpen, onClose }: CashierLoginModalProps) {
+export function CashierLoginModal({ isOpen, onClose, isLockScreen = false }: CashierLoginModalProps) {
   const dispatch = useAppDispatch();
   const [activeTab, setActiveTab] = useState<"pin" | "email">("pin");
   const [pinCode, setPinCode] = useState<string>("");
@@ -84,6 +85,7 @@ export function CashierLoginModal({ isOpen, onClose }: CashierLoginModalProps) {
             role: "cashier",
             pin_code: "0000",
             tenant_id: 1,
+            can_sell: true,
           },
           token: "demo-cashier-token-0000",
         })
@@ -99,6 +101,7 @@ export function CashierLoginModal({ isOpen, onClose }: CashierLoginModalProps) {
             role: "branch_manager",
             pin_code: "1234",
             tenant_id: 1,
+            can_sell: true,
           },
           token: "demo-manager-token-1234",
         })
@@ -114,6 +117,7 @@ export function CashierLoginModal({ isOpen, onClose }: CashierLoginModalProps) {
             role: "floor_supervisor",
             pin_code: "9999",
             tenant_id: 1,
+            can_sell: true,
           },
           token: "demo-supervisor-token-9999",
         })
@@ -162,6 +166,7 @@ export function CashierLoginModal({ isOpen, onClose }: CashierLoginModalProps) {
             role: "branch_manager",
             pin_code: "1234",
             tenant_id: 1,
+            can_sell: true,
           },
           token: "demo-manager-token",
         })
@@ -177,6 +182,7 @@ export function CashierLoginModal({ isOpen, onClose }: CashierLoginModalProps) {
             role: "cashier",
             pin_code: "0000",
             tenant_id: 1,
+            can_sell: true,
           },
           token: "demo-cashier-token",
         })
@@ -187,7 +193,7 @@ export function CashierLoginModal({ isOpen, onClose }: CashierLoginModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in duration-200">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${isLockScreen ? "bg-slate-950/80 backdrop-blur-md" : "bg-slate-900/40 backdrop-blur-xs"} animate-in fade-in duration-200`}>
       <div className="bg-white border border-slate-200 rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden">
         
         {/* Modal Header */}
@@ -197,16 +203,22 @@ export function CashierLoginModal({ isOpen, onClose }: CashierLoginModalProps) {
               <KeyRound className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-slate-900">Cashier Terminal Login</h2>
-              <p className="text-[11px] text-slate-500">Fast authentication for POS counter</p>
+              <h2 className="text-base font-bold text-slate-900">
+                {isLockScreen ? "POS Terminal Lock Screen" : "Cashier Terminal Login"}
+              </h2>
+              <p className="text-[11px] text-slate-500">
+                {isLockScreen ? "Terminal locked • Sign in to access sales counter" : "Fast authentication for POS counter"}
+              </p>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          {!isLockScreen && (
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
 
         {/* Mode Toggle Tabs */}

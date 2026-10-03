@@ -1,28 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState, CashierUser, ShiftInfo } from "../types";
 
-// Default demo cashier for seamless instant operation
-const DEFAULT_CASHIER: CashierUser = {
-  id: 3,
-  name: "Terminal Cashier 1",
-  email: "cashier@supershop.com",
-  role: "cashier",
-  pin_code: "0000",
-  tenant_id: 1,
-};
-
-const DEFAULT_SHIFT: ShiftInfo = {
-  id: 101,
-  terminalId: "POS-01",
-  openedAt: new Date().toISOString(),
-  startingCash: 5000,
-};
-
 const initialState: AuthState = {
-  user: DEFAULT_CASHIER,
+  user: null,
   token: typeof window !== "undefined" ? localStorage.getItem("auth_token") : null,
-  isAuthenticated: true,
-  activeShift: DEFAULT_SHIFT,
+  isAuthenticated: false,
+  activeShift: null,
 };
 
 export const authSlice = createSlice({
@@ -36,6 +19,14 @@ export const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
+      if (!state.activeShift) {
+        state.activeShift = {
+          id: Math.floor(Math.random() * 9000) + 1000,
+          terminalId: "POS-01",
+          openedAt: new Date().toISOString(),
+          startingCash: 5000,
+        };
+      }
       if (typeof window !== "undefined") {
         localStorage.setItem("auth_token", action.payload.token);
       }

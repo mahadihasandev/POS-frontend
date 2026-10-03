@@ -34,6 +34,7 @@ import {
   ArrowRight,
   Package,
   Award,
+  MessageSquare,
 } from "lucide-react";
 
 export function CartSection() {
@@ -113,9 +114,16 @@ export function CartSection() {
     dispatch(setCashTendered((cashTendered || grandTotal) + delta));
   };
 
+  const canUserSell = user?.can_sell !== false;
+
   // Checkout and Generate Cash Slip
   const handleCheckout = async () => {
     if (items.length === 0) return;
+
+    if (!canUserSell) {
+      alert("Unauthorized: Your staff account does not have permission to sell products. Contact your Manager.");
+      return;
+    }
 
     const orderNumber = `ORD-${Date.now().toString().slice(-6)}`;
 
@@ -249,6 +257,18 @@ export function CartSection() {
             <UserPlus className="w-4 h-4 text-indigo-600" />
           </button>
 
+          {customer.phone && (
+            <a
+              href={`https://wa.me/${customer.phone.startsWith("01") ? `88${customer.phone}` : customer.phone.replace(/[^0-9]/g, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 transition"
+              title={`Chat with ${customer.name} on WhatsApp (${customer.phone})`}
+            >
+              <MessageSquare className="w-4 h-4 text-emerald-600" />
+            </a>
+          )}
+
           <button
             type="button"
             onClick={() => setIsCustomItemOpen(true)}
@@ -258,6 +278,24 @@ export function CartSection() {
             <PlusCircle className="w-3.5 h-3.5" />
             <span>+ Custom Item</span>
           </button>
+        </div>
+
+        {/* WhatsApp CRM Helpline Banner */}
+        <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-emerald-50/70 border border-emerald-200/80 text-[11px]">
+          <span className="flex items-center gap-1.5 text-emerald-800 font-semibold">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>WhatsApp CRM Desk</span>
+          </span>
+          <a
+            href="https://wa.me/8801735696417"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono font-bold text-emerald-700 hover:text-emerald-800 hover:underline flex items-center gap-1"
+            title="Chat with Store CRM Desk on WhatsApp (+8801735696417)"
+          >
+            <span>+8801735696417</span>
+            <span className="text-[10px]">&rarr;</span>
+          </a>
         </div>
 
         {/* Loyalty Customer Points Indicator */}
@@ -581,11 +619,18 @@ export function CartSection() {
           </div>
         )}
 
+        {!canUserSell && (
+          <div className="p-3 rounded-2xl bg-amber-50 border border-amber-200/90 text-amber-900 text-xs font-semibold flex items-center gap-2">
+            <span className="text-base shrink-0">⚠️</span>
+            <span>POS Selling Blocked: Your account is restricted from processing sales by management.</span>
+          </div>
+        )}
+
         {/* Checkout / Complete Order Button */}
         <button
           type="button"
           onClick={handleCheckout}
-          disabled={items.length === 0 || isCheckingOut}
+          disabled={items.length === 0 || isCheckingOut || !canUserSell}
           className="w-full py-3 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-40 disabled:pointer-events-none text-white font-bold text-sm shadow-md shadow-emerald-600/20 transition flex items-center justify-center gap-2"
         >
           <span>Complete Sale & Cash Slip</span>
