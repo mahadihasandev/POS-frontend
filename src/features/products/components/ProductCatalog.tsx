@@ -119,16 +119,16 @@ export function ProductCatalog({ onAddToCart }: ProductCatalogProps) {
       {/* Products Grid */}
       <div className="flex-1 overflow-y-auto pr-1">
         {isLoading && rawProducts.length === 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3 animate-pulse">
-            {[...Array(8)].map((_, i) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2 sm:gap-2.5 animate-pulse">
+            {[...Array(12)].map((_, i) => (
               <div
                 key={i}
-                className="h-52 rounded-2xl bg-white border border-slate-200 p-3"
+                className="h-40 rounded-xl bg-white border border-slate-200 p-2"
               />
             ))}
           </div>
         ) : filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2 sm:gap-2.5">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
